@@ -5,14 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jtech.R;
+
 /**
  * 默认的加载更多的足部
  * Created by wuxubaiyang on 2016/3/7.
  */
-public class SimpleLoadMoreFooter extends LoadMoreFooter {
+public class SimpleLoadFooterAdapter extends LoadFooterAdapter {
     private Context context;
 
-    public SimpleLoadMoreFooter(Context context) {
+    public SimpleLoadFooterAdapter(Context context) {
         this.context = context;
     }
 
@@ -23,7 +25,7 @@ public class SimpleLoadMoreFooter extends LoadMoreFooter {
     }
 
     @Override
-    public void loadFailState(JRecyclerView.RecyclerHolder recyclerHolder) {
+    public void loadFailState(RecyclerHolder recyclerHolder) {
         //设置加载失败的文本
         recyclerHolder.setText(R.id.textview_load_footer, context.getResources().getString(R.string.load_more_state_fail));
         //隐藏progress
@@ -31,7 +33,7 @@ public class SimpleLoadMoreFooter extends LoadMoreFooter {
     }
 
     @Override
-    public void loadingState(JRecyclerView.RecyclerHolder recyclerHolder) {
+    public void loadingState(RecyclerHolder recyclerHolder) {
         //清空文本
         recyclerHolder.setText(R.id.textview_load_footer, "");
         //显示porgress
@@ -39,7 +41,7 @@ public class SimpleLoadMoreFooter extends LoadMoreFooter {
     }
 
     @Override
-    public void noMoreDataState(JRecyclerView.RecyclerHolder recyclerHolder) {
+    public void noMoreDataState(RecyclerHolder recyclerHolder) {
         //设置无更多数据文本
         recyclerHolder.setText(R.id.textview_load_footer, context.getResources().getString(R.string.load_more_state_nomoredata));
         //隐藏progress
@@ -47,7 +49,7 @@ public class SimpleLoadMoreFooter extends LoadMoreFooter {
     }
 
     @Override
-    public void normalState(JRecyclerView.RecyclerHolder recyclerHolder) {
+    public void normalState(RecyclerHolder recyclerHolder) {
         //设置常态文本
         recyclerHolder.setText(R.id.textview_load_footer, "");
         //隐藏progress

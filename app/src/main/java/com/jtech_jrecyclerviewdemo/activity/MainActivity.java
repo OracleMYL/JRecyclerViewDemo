@@ -11,8 +11,10 @@ import com.jtech.jrecyclerview.JRecyclerView;
 import com.jtech.jrecyclerview.OnItemClickListener;
 import com.jtech.jrecyclerview.OnItemLongClickListener;
 import com.jtech.jrecyclerview.OnLoadListener;
-import com.jtech.jrecyclerview.refreshlayout.RefreshLayout;
+import com.jtech.jrecyclerview.RecyclerHolder;
+import com.jtech.refreshlayout.RefreshLayout;
 import com.jtech_jrecyclerviewdemo.R;
+import com.jtech_jrecyclerviewdemo.adapter.MyLoadFooterAdapter;
 import com.jtech_jrecyclerviewdemo.adapter.UserListAdapter;
 import com.jtech_jrecyclerviewdemo.bean.UserEntity;
 import com.jtech_jrecyclerviewdemo.presenter.UserListPresenter;
@@ -26,6 +28,7 @@ import java.util.List;
 public class MainActivity extends Activity implements UserListView, OnLoadListener, RefreshLayout.OnRefreshListener, OnItemClickListener, OnItemLongClickListener {
     private int pageIndex = 1;
 
+    private MyLoadFooterAdapter myLoadFooterAdapter;
     private UserListPresenter userListPresenter;
     private UserListAdapter userListAdapter;
 
@@ -45,11 +48,12 @@ public class MainActivity extends Activity implements UserListView, OnLoadListen
         jRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //实例化适配器
         userListAdapter = new UserListAdapter(this);
-        //设置适配器
-        jRecyclerView.setAdapter(userListAdapter);
+        myLoadFooterAdapter = new MyLoadFooterAdapter();
+        //设置适配器(第二个可以设置也可以不设置,设置的话可以设置自定义的足部视图适配器,不设置的话则使用默认的适配器)
+        jRecyclerView.setAdapter(userListAdapter, myLoadFooterAdapter);
         //设置监听
-        refreshLayout.setOnRefreshListener(this);
         jRecyclerView.setOnLoadListener(this);
+        refreshLayout.setOnRefreshListener(this);
         jRecyclerView.setOnItemClickListener(this);
         jRecyclerView.setOnItemLongClickListener(this);
         //实例化数据控制
@@ -82,12 +86,12 @@ public class MainActivity extends Activity implements UserListView, OnLoadListen
     }
 
     @Override
-    public void onItemClick(RecyclerView.ViewHolder holder, View view, int position) {
+    public void onItemClick(RecyclerHolder holder, View view, int position) {
         Toast.makeText(this, "item " + position + " 点击", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public boolean onItemLongClick(RecyclerView.ViewHolder holder, View view, int position) {
+    public boolean onItemLongClick(RecyclerHolder holder, View view, int position) {
         Toast.makeText(this, "item " + position + " 长点击", Toast.LENGTH_SHORT).show();
         return true;
     }
@@ -101,13 +105,7 @@ public class MainActivity extends Activity implements UserListView, OnLoadListen
     @Override
     public void loadMore() {
         pageIndex++;
-        if (pageIndex == 3) {
-            jRecyclerView.setLoadFailState();
-        } else if (pageIndex == 5) {
-            jRecyclerView.setLoadFinishState();
-        } else {
-            userListPresenter.loadData();
-        }
+        userListPresenter.loadData();
     }
 
 }

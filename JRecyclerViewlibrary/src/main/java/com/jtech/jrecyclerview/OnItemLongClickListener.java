@@ -8,5 +8,5 @@ import android.view.View;
  * Created by wuxubaiyang on 2016/3/7.
  */
 public interface OnItemLongClickListener {
-    boolean onItemLongClick(RecyclerView.ViewHolder holder, View view, int position);
+    boolean onItemLongClick(RecyclerHolder holder, View view, int position);
 }

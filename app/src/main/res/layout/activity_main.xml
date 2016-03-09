@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jtech.jrecyclerview.refreshlayout.RefreshLayout
+    <com.jtech.refreshlayout.RefreshLayout
         android:id="@+id/refreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,6 +12,6 @@
             android:id="@+id/jrecyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.jtech.jrecyclerview.refreshlayout.RefreshLayout>
+    </com.jtech.refreshlayout.RefreshLayout>
 
 </FrameLayout>

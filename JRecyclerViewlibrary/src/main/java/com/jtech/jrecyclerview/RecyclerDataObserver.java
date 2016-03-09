@@ -6,10 +6,10 @@ import android.support.v7.widget.RecyclerView;
  * 加载更多的适配器数据观察者
  * Created by wuxubaiyang on 2016/3/7.
  */
-public class LoadMoreAdapterDataObserver extends RecyclerView.AdapterDataObserver {
+public class RecyclerDataObserver extends RecyclerView.AdapterDataObserver {
     private RecyclerView.Adapter adapter;
 
-    public LoadMoreAdapterDataObserver(RecyclerView.Adapter adapter) {
+    public RecyclerDataObserver(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
     }
 

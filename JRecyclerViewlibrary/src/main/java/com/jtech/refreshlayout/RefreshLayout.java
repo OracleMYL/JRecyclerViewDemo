@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jtech.jrecyclerview.refreshlayout;
+package com.jtech.refreshlayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -1155,6 +1155,6 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
 	 * triggers a refresh should implement this interface.
 	 */
 	public interface OnRefreshListener {
-		public void onRefresh();
+		void onRefresh();
 	}
 }
