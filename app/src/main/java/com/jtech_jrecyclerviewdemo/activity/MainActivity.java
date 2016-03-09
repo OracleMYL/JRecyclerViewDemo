@@ -1,9 +1,11 @@
 package com.jtech_jrecyclerviewdemo.activity;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,12 +27,13 @@ import java.util.List;
 /**
  * Created by wuxubaiyang on 2016/2/6.
  */
-public class MainActivity extends Activity implements UserListView, OnLoadListener, RefreshLayout.OnRefreshListener, OnItemClickListener, OnItemLongClickListener {
+public class MainActivity extends Activity implements UserListView, OnLoadListener, RefreshLayout.OnRefreshListener, OnItemClickListener, OnItemLongClickListener, UserListAdapter.OnItemTouchToMove {
     private int pageIndex = 1;
 
     private MyLoadFooterAdapter myLoadFooterAdapter;
     private UserListPresenter userListPresenter;
     private UserListAdapter userListAdapter;
+    private ItemTouchHelper itemTouchHelper;
 
     private JRecyclerView jRecyclerView;
     private RefreshLayout refreshLayout;
@@ -55,7 +58,12 @@ public class MainActivity extends Activity implements UserListView, OnLoadListen
         jRecyclerView.setOnLoadListener(this);
         refreshLayout.setOnRefreshListener(this);
         jRecyclerView.setOnItemClickListener(this);
+        userListAdapter.setOnItemTouchToMove(this);
         jRecyclerView.setOnItemLongClickListener(this);
+        //添加滑动删除以及拖动换位
+        ItemTouchHelper.Callback callback = new ItemTouchCallback();
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(jRecyclerView);
         //实例化数据控制
         userListPresenter = new UserListPresenter(this);
         //发起请求
@@ -108,4 +116,31 @@ public class MainActivity extends Activity implements UserListView, OnLoadListen
         userListPresenter.loadData();
     }
 
+    @Override
+    public void TouchToMove(RecyclerHolder holder) {
+        itemTouchHelper.startDrag(holder);
+    }
+
+    /**
+     * 自定义滑动删除以及拖动换位
+     */
+    private class ItemTouchCallback extends ItemTouchHelper.Callback {
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.RIGHT;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            userListAdapter.moveData(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            userListAdapter.removeData(viewHolder.getAdapterPosition());
+        }
+    }
 }

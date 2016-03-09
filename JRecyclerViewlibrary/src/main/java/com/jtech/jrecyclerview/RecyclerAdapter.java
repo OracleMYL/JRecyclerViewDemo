@@ -152,8 +152,8 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerHo
     public void addData(int index, T data) {
         if (null != data && null != realDatas) {
             realDatas.add(index, data);
+            notifyItemInserted(index);
         }
-        notifyItemInserted(index);
     }
 
     /**
@@ -165,7 +165,20 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerHo
     public void removeData(int position) {
         if (null != realDatas && realDatas.size() > position) {
             realDatas.remove(position);
+            notifyItemRemoved(position);
         }
-        notifyItemRemoved(position);
+    }
+
+    /**
+     * 移动数据
+     *
+     * @param fromPosition 原始位置
+     * @param toPosition   目标位置
+     */
+    public void moveData(int fromPosition, int toPosition) {
+        if (null != realDatas && realDatas.size() > fromPosition && realDatas.size() > toPosition) {
+            realDatas.add(toPosition, realDatas.remove(fromPosition));
+            notifyItemMoved(fromPosition, toPosition);
+        }
     }
 }

@@ -8,7 +8,7 @@ import com.jtech_jrecyclerviewdemo.view.UserListView;
 import java.util.List;
 
 /**
- * �û����ݴ���
+ * 逻辑处理
  * Created by wuxubaiyang on 2016/2/6.
  */
 public class UserListPresenter {
@@ -21,7 +21,7 @@ public class UserListPresenter {
     }
 
     /**
-     * ��������
+     * 数据请求
      */
     public void loadData() {
         userListView.showLoading();
